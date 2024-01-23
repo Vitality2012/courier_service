@@ -5,6 +5,7 @@ services:
         container_name: db_container
         env_file:
             - .env
+        restart: always
 
     app:
         build:
@@ -16,6 +17,7 @@ services:
             - 8000:8000
         depends_on:
             - db
+        restart: always
         command: >
             sh -c "
             sleep 10 &&
