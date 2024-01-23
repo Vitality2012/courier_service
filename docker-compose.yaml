@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+    db:
+        image: postgres:16
+        container_name: db_container
+        env_file:
+            - .env
+
+    app:
+        build:
+            context: .
+        container_name: courier_service
+        env_file:
+            - .env
+        ports:
+            - 8000:8000
+        depends_on:
+            - db
+        command: >
+            sh -c "
+            sleep 10 &&
+            alembic upgrade head &&
+            uvicorn main:app --reload --host 0.0.0.0
+            "
